@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>SimpleDockablePanel</Name>
+    <Assembly>SimpleDockablePanel.dll</Assembly>
+    <FullClassName>SimpleDockablePanel.Ribbon</FullClassName>
+    <ClientId>b6117c33-2e6a-490f-8b2a-eabfa54c7183</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

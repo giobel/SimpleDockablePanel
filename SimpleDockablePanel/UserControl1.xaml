@@ -1,0 +1,51 @@
+﻿<Page x:Class="SimpleDockablePanel.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimpleDockablePanel"
+             Title="Dockable Dialogs"  Height="500" Width="200"
+             x:Name="DockableDialogs"  Background="White" Loaded="DockableDialogs_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" ></RowDefinition>
+            <RowDefinition Height="25" ></RowDefinition>
+            <RowDefinition Height="25" ></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+            <!-- <RowDefinition></RowDefinition> -->
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0">Log</Label>
+
+        <TextBox Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Element(s) counter" Background="Transparent"
+            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Name="labelCount1" Grid.Row="1" Grid.Column="1" Content="-" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+        <Label Name="labelCount2" Grid.Row="1" Grid.Column="2" Content="-" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+
+        <TextBox Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="View created" Background="Transparent" BorderThickness="0" VerticalContentAlignment="Center"/>
+
+        <Label Name="labelView" Grid.Row="2" Grid.Column="1" Content="-" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+
+        <Button x:Name="button" Grid.Row="2" Grid.Column="2" Content="Open" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="35" Click="button_Click"/>
+
+        <TextBox x:Name="txtBoxCreated" Grid.Row="3"  Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Element(s) created" Background="Transparent"
+            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="txtBoxDeleted" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Element(s) deleted" Background="Transparent"
+            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="txtBoxDebug" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Debug" Background="Transparent"
+            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+
+
+
+    </Grid>
+</Page>
