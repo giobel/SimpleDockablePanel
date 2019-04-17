@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:SimpleDockablePanel"
              Title="Dockable Dialogs"  Height="500" Width="200"
              x:Name="DockableDialogs"  Background="White" Loaded="DockableDialogs_Loaded">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" ></RowDefinition>
@@ -52,4 +54,5 @@
             BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
 
     </Grid>
+    </ScrollViewer>
 </Page>
