@@ -67,26 +67,43 @@ namespace SimpleDockablePanel
 
             a.ControlledApplication.DocumentOpened += new EventHandler<DocumentOpenedEventArgs>(Doc_opened);
 
-            a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(App_Changed);
+            a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(ElementCreated_AddToDictionary);
+
+            //a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(App_Changed);
 
             a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(ElementDeleted);
 
             a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(ElementCreated);
 
-            m_MyDock.button.Click += Button_Click;
+            a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(ViewCreated);
 
             a.Idling += OnIdling;
 
+            m_MyDock.button.Click += Button_Click;
+
+            m_MyDock.btnDBConnect.Click += Button_DBConnect_Click;
+            
             return Result.Succeeded;
+        }
+
+
+
+        private void Button_DBConnect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                m_MyDock.txtBoxSize.Text = Helpers.ConnectDB("CQT");
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //UIApplication uiapp = sender as UIApplication;
-
             try
             {
-                //TaskDialog.Show("Message", viewToOpen.Name);
                 Helpers.OpenView(_cachedUiApp, viewToOpen);
             }
             catch(Exception ex)
@@ -110,8 +127,6 @@ namespace SimpleDockablePanel
 
             m_MyDock.txtBoxDebug.Text = uiapp.ActiveUIDocument.ActiveView.Name;
         }
-
-
 
         private void Doc_opened(object sender, DocumentOpenedEventArgs e)
         {
@@ -164,11 +179,9 @@ namespace SimpleDockablePanel
             m_MyDock.txtBoxDeleted.Text = String.Format("{0} element(s) deleted: \n{1}", deletedElements.Count, deletedElementsIds);
         }
 
-        private void ElementCreated(object sender, DocumentChangedEventArgs e)
+        private void ElementCreated_AddToDictionary(object sender, DocumentChangedEventArgs e)
         {
             Document doc = e.GetDocument();
-
-            string createdElementsIds = "";
 
             ICollection<ElementId> createdElements = e.GetAddedElementIds();
 
@@ -176,10 +189,6 @@ namespace SimpleDockablePanel
             {
 
                 Element ele = doc.GetElement(eid);
-
-                if (ele.Category != null)
-                {
-                    createdElementsIds += String.Format("{0} : {1}\n", eid.IntegerValue, ele.Category.Name);
 
                     try
                     {
@@ -190,14 +199,48 @@ namespace SimpleDockablePanel
                             string keyCategoryName = ele.Category.Name;
                             dictionaryDB.Add(elementIdKey, keyCategoryName);
                         }
-                        
+
                         //System.IO.File.AppendAllText(@"C:\Temp\RevitDB.txt", String.Format("{0} : {1}\n",elementIdKey, keyCategoryName));
                     }
                     catch
                     {
                     }
-                }
+            }
+        }
 
+
+
+        private void ElementCreated(object sender, DocumentChangedEventArgs e)
+        {
+            Document doc = e.GetDocument();
+
+            string createdElementsIds = "";
+
+            ICollection<ElementId> createdElements = e.GetAddedElementIds();
+
+            foreach (ElementId eid in createdElements)
+            {
+                string value = "not in dictionary";
+
+                dictionaryDB.TryGetValue(eid.IntegerValue, out value);
+
+                createdElementsIds += String.Format("{0} : {1}\n", eid.IntegerValue, value);
+
+            }
+
+            m_MyDock.txtBoxCreated.Text = String.Format("{0} element(s) created: \n{1}", createdElements.Count, createdElementsIds);
+        }
+
+        private void ViewCreated(object sender, DocumentChangedEventArgs e)
+        {
+            Document doc = e.GetDocument();
+
+            ICollection<ElementId> createdElements = e.GetAddedElementIds();
+
+            foreach (ElementId eid in createdElements)
+            {
+
+                Element ele = doc.GetElement(eid);
                 if (ele.Category.Name == "Views")
                 {
                     m_MyDock.labelView.Content = eid;
@@ -208,10 +251,7 @@ namespace SimpleDockablePanel
                     m_MyDock.labelView.Content = "-";
                 }
 
-
             }
-
-            m_MyDock.txtBoxCreated.Text = String.Format("{0} element(s) created: \n{1}", createdElements.Count, createdElementsIds);
         }
 
         private void App_Changed(object sender, Autodesk.Revit.DB.Events.DocumentChangedEventArgs e)
@@ -244,6 +284,7 @@ namespace SimpleDockablePanel
             m_MyDock.labelCount2.Content = elementIds.Count;
 
         }
+
 
         public Result OnShutdown(UIControlledApplication a)
         {

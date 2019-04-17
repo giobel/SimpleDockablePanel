@@ -14,6 +14,7 @@
             <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
             <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
             <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
             <!-- <RowDefinition></RowDefinition> -->
         </Grid.RowDefinitions>
 
@@ -45,7 +46,10 @@
         <TextBox x:Name="txtBoxDebug" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Debug" Background="Transparent"
             BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
 
+        <Button x:Name="btnDBConnect" Grid.Row="6" Grid.Column="0" Content="Connect to DB" HorizontalAlignment="Left" Margin="10,3,0,3" VerticalAlignment="Center" Width="100" Click="button_Click"/>
 
+        <TextBox x:Name="txtBoxSize" Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="File Size" Background="Transparent"
+            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
 
     </Grid>
 </Page>
