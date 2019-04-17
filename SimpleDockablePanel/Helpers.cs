@@ -44,7 +44,7 @@ namespace SimpleDockablePanel
             MySqlCommand cmdRead = new MySqlCommand("", connection);
             cmdRead.CommandText = "SELECT * FROM " + tableName;
 
-            string user = "";
+            string report = "";
 
             try
             {
@@ -55,33 +55,33 @@ namespace SimpleDockablePanel
                 while (reader.Read())
                 {
 
-                    user = reader.GetInt32("rvtFileSize").ToString();
-                    /*
-                    pdt.id = reader.GetInt16("id");
-                    pdt.date = reader.GetDateTime("date");
-                    pdt.user = reader.GetString("user");
-                    pdt.rvtFileSize = reader.GetInt32("rvtFileSize");
-                    pdt.elementsCount = reader.GetInt32("elementsCount");
-                    pdt.typesCount = reader.GetInt32("typesCount");
-                    pdt.sheetsCount = reader.GetInt32("sheetsCount");
-                    pdt.viewsCount = reader.GetInt32("viewsCount");
-                    pdt.viewportsCount = reader.GetInt32("viewportsCount");
+                    
+                    
+                    report += reader.GetInt16("id") + "\n";
+                    report += reader.GetDateTime("date") + "\n";
+                    report += reader.GetString("user") + "\n";
+                    report += reader.GetInt32("rvtFileSize") + "\n";
+                    report += reader.GetInt32("elementsCount") + "\n";
+                    report += reader.GetInt32("typesCount") + "\n";
+                    report += reader.GetInt32("sheetsCount") + "\n";
+                    report += reader.GetInt32("viewsCount") + "\n";
+                    report += reader.GetInt32("viewportsCount") + "\n";
                     try
                     {
-                        pdt.warningsCount = reader.GetInt32("warningsCount");
+                        report += reader.GetInt32("warningsCount");
                     }
                     catch
                     {
-                        pdt.warningsCount = 0;
+                        
                     }
-                    */
+                    
 
                 }
                 reader.Close();
 
                 MessageBox.Show(string.Format("Connection with DB {0} established", tableName));
-                return user;
-                //return rvtFileSize;
+                return report;
+                
 
             }
             catch (Exception ex)

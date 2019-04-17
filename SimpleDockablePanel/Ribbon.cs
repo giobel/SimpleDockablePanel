@@ -123,9 +123,12 @@ namespace SimpleDockablePanel
             {
                 UIDocument uidoc = uiapp.ActiveUIDocument;
                 Document doc = uidoc.Document;
-            }
 
-            m_MyDock.txtBoxDebug.Text = uiapp.ActiveUIDocument.ActiveView.Name;
+                FilteredElementCollector fec = new FilteredElementCollector(doc).WhereElementIsNotElementType();
+                m_MyDock.labelCount2.Content = fec.GetElementCount();
+                m_MyDock.txtBoxDebug.Text = uiapp.ActiveUIDocument.ActiveView.Name;
+            }
+            
         }
 
         private void Doc_opened(object sender, DocumentOpenedEventArgs e)
@@ -171,6 +174,8 @@ namespace SimpleDockablePanel
                 string value = "not in dictionary";
 
                 dictionaryDB.TryGetValue(eid.IntegerValue, out value);
+
+                dictionaryDB.Remove(eid.IntegerValue);
 
                 deletedElementsIds += String.Format("{0} : {1}\n", eid.IntegerValue, value);
 
@@ -227,7 +232,7 @@ namespace SimpleDockablePanel
                 createdElementsIds += String.Format("{0} : {1}\n", eid.IntegerValue, value);
 
             }
-
+            
             m_MyDock.txtBoxCreated.Text = String.Format("{0} element(s) created: \n{1}", createdElements.Count, createdElementsIds);
         }
 
