@@ -9,7 +9,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
-using SimpleDockablePanel.Properties;
+
 
 #endregion
 
@@ -28,23 +28,7 @@ namespace SimpleDockablePanel
 
         public Result OnStartup(UIControlledApplication a)
         {
-            a.CreateRibbonTab("Changes Tracker");
-
-            RibbonPanel AECPanelDebug = a.CreateRibbonPanel("Changes Tracker", "AEC LABS");
-
-            string path = Assembly.GetExecutingAssembly().Location;
-
-            #region DockableWindow
             
-            PushButtonData pushButtonShowDockableWindow = new PushButtonData("Show DockableWindow", "Show DockableWindow", path, "SimpleDockablePanel.ShowDockableWindow");
-            pushButtonShowDockableWindow.LargeImage = GetImage(Resources.red.GetHbitmap());
-            
-            PushButtonData pushButtonHideDockableWindow = new PushButtonData("Hide DockableWindow", "Hide DockableWindow", path, "SimpleDockablePanel.HideDockableWindow");
-            pushButtonHideDockableWindow.LargeImage = GetImage(Resources.orange.GetHbitmap());
-
-            RibbonItem ri2 = AECPanelDebug.AddItem(pushButtonShowDockableWindow);
-            RibbonItem ri3 = AECPanelDebug.AddItem(pushButtonHideDockableWindow);
-            #endregion
 
             DockablePaneProviderData data = new DockablePaneProviderData();
 
@@ -71,22 +55,38 @@ namespace SimpleDockablePanel
 
             //a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(App_Changed);
 
-            a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(ElementDeleted);
+            a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(ElementDeleted);
 
-            a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(ElementCreated);
+            a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(ElementCreated);
 
-            a.ControlledApplication.DocumentChanged += new EventHandler<Autodesk.Revit.DB.Events.DocumentChangedEventArgs>(ViewCreated);
+            a.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(ViewCreated);
+
+            a.ControlledApplication.DocumentSynchronizedWithCentral += new EventHandler<DocumentSynchronizedWithCentralEventArgs>(DocSync);
+
+            a.ControlledApplication.DocumentSaved += new EventHandler<DocumentSavedEventArgs>(DocSaved);
 
             a.Idling += OnIdling;
 
             m_MyDock.button.Click += Button_Click;
+
+            m_MyDock.btnDeleteView.Click += DeleteView_Click;
 
             m_MyDock.btnDBConnect.Click += Button_DBConnect_Click;
             
             return Result.Succeeded;
         }
 
+        private void DocSaved(object sender, DocumentSavedEventArgs e)
+        {
+            string currentUser = _cachedUiApp.Application.Username;
+            m_MyDock.txtBoxSyncTime.Text = String.Format("{0} {1}", Helpers.GetTime(), currentUser);
+        }
 
+        private void DocSync(object sender, DocumentSynchronizedWithCentralEventArgs e)
+        {
+            string currentUser = _cachedUiApp.Application.Username;
+            m_MyDock.txtBoxSyncTime.Text = String.Format("{0} {1}",Helpers.GetTime(), currentUser);
+        }
 
         private void Button_DBConnect_Click(object sender, RoutedEventArgs e)
         {
@@ -113,6 +113,19 @@ namespace SimpleDockablePanel
             
         }
 
+        private void DeleteView_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Helpers.DeleteView(_cachedUiApp, viewToOpen);
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
+
+        }
+
         private void OnIdling(object sender, IdlingEventArgs e)
         {
             UIApplication uiapp = sender as UIApplication;
@@ -125,8 +138,8 @@ namespace SimpleDockablePanel
                 Document doc = uidoc.Document;
 
                 FilteredElementCollector fec = new FilteredElementCollector(doc).WhereElementIsNotElementType();
-                m_MyDock.labelCount2.Content = fec.GetElementCount();
-                m_MyDock.txtBoxDebug.Text = uiapp.ActiveUIDocument.ActiveView.Name;
+                m_MyDock.labelCount2.Text = fec.GetElementCount().ToString();
+                m_MyDock.txtBoxActiveView.Text = String.Format("{0}",uiapp.ActiveUIDocument.ActiveView.Name);
             }
             
         }
@@ -160,7 +173,7 @@ namespace SimpleDockablePanel
                 }
             }
 
-            m_MyDock.labelCount1.Content = elementIds.Count;
+            m_MyDock.labelCount1.Text = elementIds.Count.ToString();
         }
 
         private void ElementDeleted(object sender, DocumentChangedEventArgs e)
@@ -248,12 +261,12 @@ namespace SimpleDockablePanel
                 Element ele = doc.GetElement(eid);
                 if (ele.Category.Name == "Views")
                 {
-                    m_MyDock.labelView.Content = eid;
+                    m_MyDock.labelView.Text = eid.ToString();
                     viewToOpen = ele as View;
                 }
                 else
                 {
-                    m_MyDock.labelView.Content = "-";
+                    m_MyDock.labelView.Text = "-";
                 }
 
             }
@@ -286,7 +299,7 @@ namespace SimpleDockablePanel
                 } 
             }
 
-            m_MyDock.labelCount2.Content = elementIds.Count;
+            m_MyDock.labelCount2.Text = elementIds.Count.ToString();
 
         }
 
@@ -297,17 +310,7 @@ namespace SimpleDockablePanel
         }
 
 
-        private BitmapSource GetImage(IntPtr bm)
-        {
-            BitmapSource bmSource
-              = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                bm,
-                IntPtr.Zero,
-                System.Windows.Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
 
-            return bmSource;
-        }
     }
 
 }

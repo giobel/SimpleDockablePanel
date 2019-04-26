@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using MySql.Data.MySqlClient;
+using SimpleDockablePanel.Properties;
 
 namespace SimpleDockablePanel
 {
@@ -25,6 +25,27 @@ namespace SimpleDockablePanel
         public static void OpenView(UIApplication uiapp, View myView)
         {
             uiapp.ActiveUIDocument.RequestViewChange(myView);
+        }
+
+        public static void DeleteView(UIApplication uiapp, View myView)
+        {
+            Document doc = uiapp.ActiveUIDocument.Document;
+
+            using (Transaction t= new Transaction(doc, "Delete view"))
+            {
+                try
+                {
+                    t.Start();
+                    doc.Delete(myView.Id);
+                    t.Commit();
+                }
+                catch(Exception ex)
+                {
+                    TaskDialog.Show("Error", String.Format("View not deleted. \n{0}",ex.Message));
+                }
+            }
+
+            
         }
 
         public static string ConnectDB(string tableName)
@@ -98,6 +119,45 @@ namespace SimpleDockablePanel
 
             }
         }//close method
+
+        public static string GetTime()
+        {
+            DateTime timeSync = DateTime.Now;
+            return String.Format("{0:HH:mm:ss}", timeSync);
+        }
+
+        public static void CreateTab(UIControlledApplication a)
+        {
+            a.CreateRibbonTab("Changes Tracker");
+
+            RibbonPanel AECPanelDebug = a.CreateRibbonPanel("Changes Tracker", "AEC LABS");
+
+            string path = Assembly.GetExecutingAssembly().Location;
+
+            #region DockableWindow
+
+            PushButtonData pushButtonShowDockableWindow = new PushButtonData("Show DockableWindow", "Show DockableWindow", path, "SimpleDockablePanel.ShowDockableWindow");
+            pushButtonShowDockableWindow.LargeImage = GetImage(Resources.red.GetHbitmap());
+
+            PushButtonData pushButtonHideDockableWindow = new PushButtonData("Hide DockableWindow", "Hide DockableWindow", path, "SimpleDockablePanel.HideDockableWindow");
+            pushButtonHideDockableWindow.LargeImage = GetImage(Resources.orange.GetHbitmap());
+
+            RibbonItem ri2 = AECPanelDebug.AddItem(pushButtonShowDockableWindow);
+            RibbonItem ri3 = AECPanelDebug.AddItem(pushButtonHideDockableWindow);
+            #endregion
+        }
+
+        private static BitmapSource GetImage(IntPtr bm)
+        {
+            BitmapSource bmSource
+              = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                bm,
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            return bmSource;
+        }
 
     }
 }

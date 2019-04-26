@@ -4,55 +4,98 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleDockablePanel"
-             Title="Dockable Dialogs"  Height="500" Width="200"
+             Title="Dockable Dialogs"  Height="500" Width="205"
              x:Name="DockableDialogs"  Background="White" Loaded="DockableDialogs_Loaded">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="10,5,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="10,5,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+
+        </Style>
+    </Page.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" ></RowDefinition>
-            <RowDefinition Height="25" ></RowDefinition>
-            <RowDefinition Height="25" ></RowDefinition>
-            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
-            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
-            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
-            <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
-            <!-- <RowDefinition></RowDefinition> -->
-        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
+        <StackPanel >
+            <Label>Log</Label>
 
-        <Label Grid.Row="0">Log</Label>
+            <TextBlock ><Run Text="Active View:                 "/><Run x:Name="txtBoxActiveView" Text="" FontWeight="Bold"/></TextBlock>
 
-        <TextBox Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Element(s) counter" Background="Transparent"
+            <TextBlock ><Run Text="Last Sync Time:     "/><Run x:Name="txtBoxSyncTime" Text="" FontWeight="Bold"/></TextBlock>
+
+            
+
+            <Grid>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+                    <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+                    <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+                    <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+                    <RowDefinition Height="Auto" MinHeight="25"></RowDefinition>
+                    <!-- <RowDefinition></RowDefinition> -->
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                
+                
+
+
+                <DockPanel Grid.ColumnSpan="3">
+                    <TextBox Text="View created" Grid.Row="0" />
+                    <TextBox Name="labelView" Grid.Row="0" Grid.Column="1" Text="-" />
+                    <TextBlock></TextBlock>
+                    <Button DockPanel.Dock="Right" x:Name="button" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.Column="2" Width="30" Height="30" Click="button_Click" >
+                        <StackPanel Background="Transparent" >
+                            <Image Source="pack://application:,,,/SimpleDockablePanel;component/Resources/open.png" Height="20" Width="24" />
+                        </StackPanel>
+                    </Button>
+                    <Button DockPanel.Dock="Right" x:Name="btnDeleteView" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.Column="2" Width="25" Height="25" Click="btnDeleteViewClick" >
+                        <StackPanel Background="Transparent" >
+                            <Image Source="pack://application:,,,/SimpleDockablePanel;component/Resources/bin.png" Height="20" Width="24" RenderTransformOrigin="-0.208,0.8" />
+                        </StackPanel>
+                    </Button>
+                </DockPanel>
+                
+                
+
+
+
+                <TextBox Grid.Row="1" Text="Element(s) counter" />
+                <TextBox Name="labelCount1" Grid.Row="1" Grid.Column="1" Text="-"/>
+                <TextBox Name="labelCount2" Grid.Row="1" Grid.Column="2" Text="-"/>
+
+                <TextBox x:Name="txtBoxCreated" Grid.Row="2"  Grid.ColumnSpan="3" />
+
+                <TextBox x:Name="txtBoxDeleted" Grid.Row="3" Grid.ColumnSpan="3" />
+
+                <Button x:Name="btnDBConnect" Grid.Row="4" Grid.Column="0" Content="Connect to DB" Width="100" Click="button_Click"/>
+
+                <TextBox x:Name="txtBoxSize" Grid.Row="7"  Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="File Size" Background="Transparent"
             BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Name="labelCount1" Grid.Row="1" Grid.Column="1" Content="-" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-        <Label Name="labelCount2" Grid.Row="1" Grid.Column="2" Content="-" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
 
-        <TextBox Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="View created" Background="Transparent" BorderThickness="0" VerticalContentAlignment="Center"/>
+            </Grid>
 
-        <Label Name="labelView" Grid.Row="2" Grid.Column="1" Content="-" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+        </StackPanel>
 
-        <Button x:Name="button" Grid.Row="2" Grid.Column="2" Content="Open" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="35" Click="button_Click"/>
 
-        <TextBox x:Name="txtBoxCreated" Grid.Row="3"  Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Element(s) created" Background="Transparent"
-            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-
-        <TextBox x:Name="txtBoxDeleted" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Element(s) deleted" Background="Transparent"
-            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-
-        <TextBox x:Name="txtBoxDebug" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Debug" Background="Transparent"
-            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-
-        <Button x:Name="btnDBConnect" Grid.Row="6" Grid.Column="0" Content="Connect to DB" HorizontalAlignment="Left" Margin="10,3,0,3" VerticalAlignment="Center" Width="100" Click="button_Click"/>
-
-        <TextBox x:Name="txtBoxSize" Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="File Size" Background="Transparent"
-            BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-
-    </Grid>
     </ScrollViewer>
 </Page>

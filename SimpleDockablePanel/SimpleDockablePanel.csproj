@@ -92,6 +92,8 @@
     <None Include="Resources\green.png" />
     <None Include="Resources\orange.png" />
     <None Include="Resources\red.png" />
+    <Resource Include="Resources\open.png" />
+    <Resource Include="Resources\bin.png" />
     <Content Include="SimpleDockablePanel.addin" />
   </ItemGroup>
   <ItemGroup>

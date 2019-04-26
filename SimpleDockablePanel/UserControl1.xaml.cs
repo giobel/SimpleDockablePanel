@@ -95,5 +95,11 @@ namespace SimpleDockablePanel
         {
             
         }
+
+        private void btnDeleteViewClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
     }
 }
