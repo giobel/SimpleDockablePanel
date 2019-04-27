@@ -8,7 +8,7 @@ namespace SimpleDockablePanel
     /// <summary>
     /// Hide dockable dialog
     /// </summary>
-    [Transaction(TransactionMode.ReadOnly)]
+    [Transaction(TransactionMode.Manual)] //readonly
     public class HideDockableWindow : IExternalCommand
     {
         public Result Execute(

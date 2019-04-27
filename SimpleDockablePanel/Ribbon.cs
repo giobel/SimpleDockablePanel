@@ -98,6 +98,7 @@ namespace SimpleDockablePanel
             _deleteViewHandler = new DeleteViewHandler();
 
             deleteViewEvent = ExternalEvent.Create(_deleteViewHandler);
+            
 
             return Result.Succeeded;
         }
@@ -153,10 +154,8 @@ namespace SimpleDockablePanel
         private void DeleteView_Click(object sender, RoutedEventArgs e)
         {
             deleteViewEvent.Raise();
-            if (DeleteViewHandler.executed > 0) //executed = 0 
-            {
-                m_MyDock.labelView.Text = "Deleted";
-            }
+            m_MyDock.labelView.Text = "Deleted";
+            
         }
 
         private void OnIdling(object sender, IdlingEventArgs e)

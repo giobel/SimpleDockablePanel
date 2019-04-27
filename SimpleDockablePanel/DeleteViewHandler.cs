@@ -10,9 +10,7 @@ namespace SimpleDockablePanel
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class DeleteViewHandler : IExternalEventHandler
     {
-
-        public static int executed = 0;
-
+        
         public void Execute(UIApplication uiapp)
         {
             Document doc = uiapp.ActiveUIDocument.Document;
@@ -24,8 +22,7 @@ namespace SimpleDockablePanel
                     t.Start();
                     doc.Delete(Ribbon.viewToOpen.Id);
                     t.Commit();
-
-                    executed ++;
+                    
                 }
 
                 #region catch and finally

@@ -8,7 +8,7 @@ namespace SimpleDockablePanel
     /// <summary>
     /// Show dockable dialog
     /// </summary>
-    [Transaction(TransactionMode.ReadOnly)]
+    [Transaction(TransactionMode.Manual)]
     public class ShowDockableWindow : IExternalCommand
     {
         public Result Execute(
