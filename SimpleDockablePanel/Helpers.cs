@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using MySql.Data.MySqlClient;
 using SimpleDockablePanel.Properties;
@@ -13,6 +15,8 @@ namespace SimpleDockablePanel
 {
     class Helpers
     {
+
+
         public static void ElementsCount(Document doc)
         {
             
@@ -21,6 +25,80 @@ namespace SimpleDockablePanel
             TaskDialog.Show("Result", fec.Count().ToString());
             
         }
+
+
+
+        public static void DocSaved(object sender, DocumentSavedEventArgs e)
+        {
+            
+            string currentUser = ShowDockableWindow._cachedUiApp.Application.Username;
+            Ribbon.m_MyDock.txtBoxSyncTime.Text = String.Format("{0} {1}", Helpers.GetTime(), currentUser);
+        }
+
+        public static Dictionary<int, string> elementsToDictionary(Document doc)
+        {
+
+            Dictionary<int, string> myDictionary = new Dictionary<int, string>();
+
+            ICollection<ElementId> elementIds = new FilteredElementCollector(doc).WhereElementIsNotElementType().ToElementIds();
+
+            foreach (var eid in elementIds)
+            {
+                Element ele = doc.GetElement(eid);
+
+                if (ele.Category != null && ele.Category.Name != null)
+                {
+                    try
+                    {
+                        int elementIdKey = eid.IntegerValue;
+                        string keyCategoryName = doc.GetElement(eid).Category.Name;
+
+                        myDictionary.Add(elementIdKey, keyCategoryName);
+
+                        //System.IO.File.AppendAllText(@"C:\Temp\RevitDB.txt", String.Format("{0} : {1}\n",elementIdKey, keyCategoryName));
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            }
+
+            return myDictionary;
+        }
+
+        public static int CountElementIds(Document doc)
+        {
+
+
+            ICollection<ElementId> elementIds = new FilteredElementCollector(doc).WhereElementIsNotElementType().ToElementIds();
+
+            foreach (var eid in elementIds)
+            {
+                Element ele = doc.GetElement(eid);
+
+                if (ele.Category != null && ele.Category.Name != null)
+                {
+                    try
+                    {
+                        int elementIdKey = eid.IntegerValue;
+                        string keyCategoryName = doc.GetElement(eid).Category.Name;
+
+                        dictionaryDB.Add(elementIdKey, keyCategoryName);
+
+                        //System.IO.File.AppendAllText(@"C:\Temp\RevitDB.txt", String.Format("{0} : {1}\n",elementIdKey, keyCategoryName));
+                    }
+                    catch (Exception ex)
+                    {
+                        TaskDialog.Show("error", ex.Message);
+                    }
+                }
+            }
+
+            return elementIds.Count();
+
+        }
+
 
 
         public static string ConnectDB(string tableName)

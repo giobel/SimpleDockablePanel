@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SimpleDockablePanel
 {
@@ -13,6 +14,18 @@ namespace SimpleDockablePanel
         public static void OpenView(UIApplication uiapp, View myView)
         {
             uiapp.ActiveUIDocument.RequestViewChange(myView);
+        }
+
+        public static void OpenView_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ViewHelpers.OpenView(ShowDockableWindow._cachedUiApp, ShowDockableWindow.viewToOpen);
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
         }
 
     }

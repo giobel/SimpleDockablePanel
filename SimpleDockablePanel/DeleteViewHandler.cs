@@ -20,7 +20,7 @@ namespace SimpleDockablePanel
                 try
                 {
                     t.Start();
-                    doc.Delete(Ribbon.viewToOpen.Id);
+                    doc.Delete(ShowDockableWindow.viewToOpen.Id);
                     t.Commit();
                     
                 }
