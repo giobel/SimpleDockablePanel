@@ -22,31 +22,6 @@ namespace SimpleDockablePanel
             
         }
 
-        public static void OpenView(UIApplication uiapp, View myView)
-        {
-            uiapp.ActiveUIDocument.RequestViewChange(myView);
-        }
-
-        public static void DeleteView(UIApplication uiapp, View myView)
-        {
-            Document doc = uiapp.ActiveUIDocument.Document;
-
-            using (Transaction t= new Transaction(doc, "Delete view"))
-            {
-                try
-                {
-                    t.Start();
-                    doc.Delete(myView.Id);
-                    t.Commit();
-                }
-                catch(Exception ex)
-                {
-                    TaskDialog.Show("Error", String.Format("View not deleted. \n{0}",ex.Message));
-                }
-            }
-
-            
-        }
 
         public static string ConnectDB(string tableName)
         {

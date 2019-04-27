@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
+using SimpleDockablePanel.Properties;
 
 
 #endregion
@@ -20,15 +22,35 @@ namespace SimpleDockablePanel
         private UserControl1 m_MyDock = null;
         private Dictionary<int, string> dictionaryDB = new Dictionary<int, string>();
 
+        DeleteViewHandler _deleteViewHandler;
+
+        ExternalEvent deleteViewEvent;
+
         public static UIApplication _cachedUiApp;
 
         private Document mydoc = null;
         
-        private View viewToOpen = null;
+        public static View viewToOpen = null;
 
         public Result OnStartup(UIControlledApplication a)
         {
-            
+            a.CreateRibbonTab("Changes Tracker");
+
+            RibbonPanel AECPanelDebug = a.CreateRibbonPanel("Changes Tracker", "AEC LABS");
+
+            string path = Assembly.GetExecutingAssembly().Location;
+
+            #region DockableWindow
+
+            PushButtonData pushButtonShowDockableWindow = new PushButtonData("Show DockableWindow", "Show DockableWindow", path, "SimpleDockablePanel.ShowDockableWindow");
+            pushButtonShowDockableWindow.LargeImage = GetImage(Resources.red.GetHbitmap());
+
+            PushButtonData pushButtonHideDockableWindow = new PushButtonData("Hide DockableWindow", "Hide DockableWindow", path, "SimpleDockablePanel.HideDockableWindow");
+            pushButtonHideDockableWindow.LargeImage = GetImage(Resources.orange.GetHbitmap());
+
+            RibbonItem ri2 = AECPanelDebug.AddItem(pushButtonShowDockableWindow);
+            RibbonItem ri3 = AECPanelDebug.AddItem(pushButtonHideDockableWindow);
+            #endregion
 
             DockablePaneProviderData data = new DockablePaneProviderData();
 
@@ -66,14 +88,42 @@ namespace SimpleDockablePanel
             a.ControlledApplication.DocumentSaved += new EventHandler<DocumentSavedEventArgs>(DocSaved);
 
             a.Idling += OnIdling;
-
-            m_MyDock.button.Click += Button_Click;
+            
+            m_MyDock.button.Click += OpenView_Click;
 
             m_MyDock.btnDeleteView.Click += DeleteView_Click;
 
             m_MyDock.btnDBConnect.Click += Button_DBConnect_Click;
-            
+
+            _deleteViewHandler = new DeleteViewHandler();
+
+            deleteViewEvent = ExternalEvent.Create(_deleteViewHandler);
+
             return Result.Succeeded;
+        }
+
+        private BitmapSource GetImage(IntPtr bm)
+        {
+            BitmapSource bmSource
+              = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                bm,
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            return bmSource;
+        }
+
+        private void OpenView_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ViewHelpers.OpenView(_cachedUiApp, viewToOpen);
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
         }
 
         private void DocSaved(object sender, DocumentSavedEventArgs e)
@@ -100,30 +150,13 @@ namespace SimpleDockablePanel
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Helpers.OpenView(_cachedUiApp, viewToOpen);
-            }
-            catch(Exception ex)
-            {
-                TaskDialog.Show("Error", ex.Message);
-            }
-            
-        }
-
         private void DeleteView_Click(object sender, RoutedEventArgs e)
         {
-            try
+            deleteViewEvent.Raise();
+            if (DeleteViewHandler.executed > 0) //executed = 0 
             {
-                Helpers.DeleteView(_cachedUiApp, viewToOpen);
+                m_MyDock.labelView.Text = "Deleted";
             }
-            catch (Exception ex)
-            {
-                TaskDialog.Show("Error", ex.Message);
-            }
-
         }
 
         private void OnIdling(object sender, IdlingEventArgs e)
@@ -260,9 +293,9 @@ namespace SimpleDockablePanel
 
                 Element ele = doc.GetElement(eid);
                 if (ele.Category.Name == "Views")
-                {
-                    m_MyDock.labelView.Text = eid.ToString();
+                {   
                     viewToOpen = ele as View;
+                    m_MyDock.labelView.Text = String.Format("{0} Id: {1}", ele.Name, eid.ToString());
                 }
                 else
                 {
