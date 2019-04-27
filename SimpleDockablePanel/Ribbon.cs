@@ -21,8 +21,6 @@ namespace SimpleDockablePanel
     {
         public static UserControl1 m_MyDock = null;
 
-        //public static Dictionary<int, string> dictionaryDB = new Dictionary<int, string>();
-
         public static DockablePaneId dpid = new DockablePaneId(new Guid("{D7C963CE-B7CA-426A-8D51-6E8254D21157}"));
 
         public Result OnStartup(UIControlledApplication a)
@@ -35,11 +33,11 @@ namespace SimpleDockablePanel
 
             #region DockableWindow
 
-            PushButtonData pushButtonShowDockableWindow = new PushButtonData("Show DockableWindow", "Show DockableWindow", path, "SimpleDockablePanel.ShowDockableWindow");
-            pushButtonShowDockableWindow.LargeImage = GetImage(Resources.red.GetHbitmap());
+            PushButtonData pushButtonShowDockableWindow = new PushButtonData("Show DockableWindow", "Start", path, "SimpleDockablePanel.ShowDockableWindow");
+            pushButtonShowDockableWindow.LargeImage = GetImage(Resources.green.GetHbitmap());
 
             PushButtonData pushButtonHideDockableWindow = new PushButtonData("Hide DockableWindow", "Hide DockableWindow", path, "SimpleDockablePanel.HideDockableWindow");
-            pushButtonHideDockableWindow.LargeImage = GetImage(Resources.orange.GetHbitmap());
+            pushButtonHideDockableWindow.LargeImage = GetImage(Resources.red.GetHbitmap());
 
             RibbonItem ri2 = AECPanelDebug.AddItem(pushButtonShowDockableWindow);
             RibbonItem ri3 = AECPanelDebug.AddItem(pushButtonHideDockableWindow);
@@ -61,14 +59,11 @@ namespace SimpleDockablePanel
             };
             
             a.RegisterDockablePane(dpid, "Changes Tracker", MainDockableWindow as IDockablePaneProvider);
-
-            //a.ControlledApplication.DocumentOpened += new EventHandler<DocumentOpenedEventArgs>(Doc_opened);
-
+            
             return Result.Succeeded;
         }
 
-
-       
+      
         private BitmapSource GetImage(IntPtr bm)
         {
             BitmapSource bmSource
@@ -81,38 +76,6 @@ namespace SimpleDockablePanel
             return bmSource;
         }
 
-/*
-        private void Doc_opened(object sender, DocumentOpenedEventArgs e)
-        {
-            Document mydoc = e.Document;
-
-            ICollection<ElementId> elementIds = new FilteredElementCollector(mydoc).WhereElementIsNotElementType().ToElementIds();
-
-            foreach (var eid in elementIds)
-            {
-                Element ele = mydoc.GetElement(eid);
-
-                if (ele.Category != null && ele.Category.Name != null)
-                {
-                    try
-                    {
-                        int elementIdKey = eid.IntegerValue;
-                        string keyCategoryName = mydoc.GetElement(eid).Category.Name;
-
-                        dictionaryDB.Add(elementIdKey, keyCategoryName);
-
-                        //System.IO.File.AppendAllText(@"C:\Temp\RevitDB.txt", String.Format("{0} : {1}\n",elementIdKey, keyCategoryName));
-                    }
-                    catch (Exception ex)
-                    {
-                        //TaskDialog.Show("error", ex.Message);
-                    }
-                }
-            }
-
-            m_MyDock.labelCount1.Text = elementIds.Count.ToString();
-        }
-        */
 
         public Result OnShutdown(UIControlledApplication a)
         {

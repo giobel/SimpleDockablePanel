@@ -69,31 +69,7 @@ namespace SimpleDockablePanel
 
         public static int CountElementIds(Document doc)
         {
-
-
             ICollection<ElementId> elementIds = new FilteredElementCollector(doc).WhereElementIsNotElementType().ToElementIds();
-
-            foreach (var eid in elementIds)
-            {
-                Element ele = doc.GetElement(eid);
-
-                if (ele.Category != null && ele.Category.Name != null)
-                {
-                    try
-                    {
-                        int elementIdKey = eid.IntegerValue;
-                        string keyCategoryName = doc.GetElement(eid).Category.Name;
-
-                        dictionaryDB.Add(elementIdKey, keyCategoryName);
-
-                        //System.IO.File.AppendAllText(@"C:\Temp\RevitDB.txt", String.Format("{0} : {1}\n",elementIdKey, keyCategoryName));
-                    }
-                    catch (Exception ex)
-                    {
-                        TaskDialog.Show("error", ex.Message);
-                    }
-                }
-            }
 
             return elementIds.Count();
 

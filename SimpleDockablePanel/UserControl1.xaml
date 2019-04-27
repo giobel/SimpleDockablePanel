@@ -11,6 +11,7 @@
             <Setter Property="Margin" Value="10,5,0,0" />
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="10,5,0,0" />
@@ -30,13 +31,29 @@
 
 
         <StackPanel >
-            <Label>Log</Label>
-
-            <TextBlock ><Run Text="Active View:                 "/><Run x:Name="txtBoxActiveView" Text="" FontWeight="Bold"/></TextBlock>
-
-            <TextBlock ><Run Text="Last Sync Time:     "/><Run x:Name="txtBoxSyncTime" Text="" FontWeight="Bold"/></TextBlock>
 
             
+            <TextBlock ><Run Text="Active View:                 "/><Run x:Name="txtBoxActiveView" Text="" FontWeight="Bold"/></TextBlock>
+
+            <StackPanel Orientation="Horizontal" Height="20">
+                <TextBlock TextAlignment="Left"
+                       Text="New: "
+                       Width="30" />
+                <TextBlock Name="labelView" Text="" Width="100" FontWeight="Bold"/>
+                <Button x:Name="button" DockPanel.Dock="Bottom" Background="Transparent" BorderThickness="0" Margin="0,0,0,0" Width="30" Height="30" Click="button_Click" >
+                    <StackPanel Background="Transparent" >
+                        <Image Source="pack://application:,,,/SimpleDockablePanel;component/Resources/open.png" Height="20" Width="24" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnDeleteView" DockPanel.Dock="Bottom" Background="Transparent" BorderThickness="0" Margin="0,0,0,0" Width="25" Height="25" Click="btnDeleteViewClick" >
+                    <StackPanel Background="Transparent">
+                        <Image Source="pack://application:,,,/SimpleDockablePanel;component/Resources/bin.png" Height="20" Width="24" RenderTransformOrigin="-0.208,0.8" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            
+            <TextBlock ><Run Text="Last Sync Time:     "/><Run x:Name="txtBoxSyncTime" Text="" FontWeight="Bold"/></TextBlock>
+
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -58,25 +75,6 @@
                 
                 
 
-
-                <DockPanel Grid.ColumnSpan="3">
-                    <TextBox Text="View created" Grid.Row="0" />
-                    <TextBox Name="labelView" Grid.Row="0" Grid.Column="1" Text="-" Width="40"/>
-                    
-                    
-                        <Button x:Name="button" Background="Transparent" BorderThickness="0" Margin="0,0,0,0" Grid.Row="0" Grid.Column="2" Width="30" Height="30" Click="button_Click" >
-                            <StackPanel Background="Transparent" >
-                                <Image Source="pack://application:,,,/SimpleDockablePanel;component/Resources/open.png" Height="20" Width="24" />
-                            </StackPanel>
-                        </Button>
-                    <Button x:Name="btnDeleteView" Background="Transparent" BorderThickness="0" Margin="0,0,0,0" Grid.Row="0" Grid.Column="2" Width="25" Height="25" Click="btnDeleteViewClick" >
-                            <StackPanel Background="Transparent" Margin="0,0,0,0">
-                                <Image Source="pack://application:,,,/SimpleDockablePanel;component/Resources/bin.png" Height="20" Width="24" RenderTransformOrigin="-0.208,0.8" />
-                            </StackPanel>
-                        </Button>
-                    
-                    
-                </DockPanel>
                 
                 
 

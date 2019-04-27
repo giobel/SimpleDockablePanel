@@ -9,8 +9,6 @@ using System.Windows;
 
 namespace SimpleDockablePanel
 {
-
-
     /// <summary>
     /// Show dockable dialog
     /// </summary>
