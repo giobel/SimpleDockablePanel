@@ -100,6 +100,13 @@ namespace SimpleDockablePanel
         {
 
         }
-        
+
+        private void cbBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txtBoxDB.Text = DbHelpers.dbGetTableValues(cboxDatabases.SelectedItem.ToString(), txtBoxServer.Text,
+                    txtBoxDBname.Text,
+                    txtBoxUser.Text,
+                    pws.Password);
+        }
     }
 }

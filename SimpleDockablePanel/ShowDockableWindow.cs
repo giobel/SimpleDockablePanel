@@ -81,7 +81,7 @@ namespace SimpleDockablePanel
 
             dp.Show();
 
-
+            
 
             return Result.Succeeded;
         }//close Result
@@ -102,7 +102,13 @@ namespace SimpleDockablePanel
         {
             try
             {
-                m_MyDock.txtBoxSize.Text = Helpers.ConnectDB("CQT");
+                //m_MyDock.txtBoxDB.Text = Helpers.ConnectDB("CQT");
+
+                MessageBox.Show(DbHelpers.dbGetTableNames(m_MyDock.txtBoxServer.Text,
+                    m_MyDock.txtBoxDBname.Text,
+                    m_MyDock.txtBoxUser.Text,
+                    m_MyDock.pws.Password
+                    ).ToString());
             }
             catch (Exception ex)
             {
