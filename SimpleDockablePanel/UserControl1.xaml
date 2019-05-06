@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleDockablePanel"
+             xmlns:selectTab="clr-namespace:SimpleDockablePanel.Views"
              Title="Dockable Dialogs"  Height="500" Width="200"
              x:Name="DockableDialogs"  Background="White" Loaded="DockableDialogs_Loaded">
     <Page.Resources>
@@ -142,6 +143,13 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
+            
+            <TabItem Header="Selection">
+
+                <selectTab:SelectTab/>
+
+            </TabItem>
+            
         </TabControl>
     </Grid>
 </Page>

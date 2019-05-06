@@ -8,11 +8,14 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
 using MySql.Data.MySqlClient;
 using SimpleDockablePanel.Properties;
 
 namespace SimpleDockablePanel
 {
+   
+
     class Helpers
     {
 
@@ -26,7 +29,24 @@ namespace SimpleDockablePanel
             
         }
 
+        public static void SelectElementsFilter(UIApplication uiapp, string categoryName)
+        {
+            UIDocument uidoc = uiapp.ActiveUIDocument;
 
+            List<ElementId> elementSet = new List<ElementId>();
+
+            ISelectionFilter beamFilter = new ElementSelectionFilter(categoryName);
+
+            IList<Reference> selectedIds = uidoc.Selection.PickObjects(ObjectType.Element, beamFilter, "Select Beams");
+
+            foreach (Reference r in selectedIds)
+            {
+                Element elements = uidoc.Document.GetElement(r);
+                elementSet.Add(r.ElementId);
+
+            }
+            uidoc.Selection.SetElementIds(elementSet);
+        }
 
         public static void DocSaved(object sender, DocumentSavedEventArgs e)
         {
@@ -75,14 +95,6 @@ namespace SimpleDockablePanel
 
         }
 
-
-      
-
-
-
-        
-
-
         public static string GetTime()
         {
             DateTime timeSync = DateTime.Now;
@@ -123,4 +135,30 @@ namespace SimpleDockablePanel
         }
 
     }
+
+    public class ElementSelectionFilter : ISelectionFilter
+    {
+
+        public string catNameChosen { get; set; }
+
+        public ElementSelectionFilter(string catName)
+        {
+            this.catNameChosen = catName;
+        }
+
+        public bool AllowElement(Element e)
+        {
+
+            if (e.Category.Name == catNameChosen)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool AllowReference(Reference refer, XYZ point)
+        {
+            return false;
+        }
+
+    }//close class
 }
