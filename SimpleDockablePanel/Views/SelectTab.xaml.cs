@@ -12,7 +12,9 @@ namespace SimpleDockablePanel.Views
             InitializeComponent();
             this.DataContext = new Commands.SelectTabViewModel();
 
-            (DataContext as Commands.SelectTabViewModel).SelectBeam();
+            (DataContext as Commands.SelectTabViewModel).SelectAllInView();
+
+            (DataContext as Commands.SelectTabViewModel).SelectBeams();
 
             (DataContext as Commands.SelectTabViewModel).SelectWalls();
 

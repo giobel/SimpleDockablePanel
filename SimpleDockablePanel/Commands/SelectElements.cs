@@ -7,6 +7,31 @@ using Autodesk.Revit.UI.Selection;
 
 namespace SimpleDockablePanel
 {
+
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    public class SelectAllInView : IExternalEventHandler
+    {
+
+        public void Execute(UIApplication uiapp)
+        {
+            try
+            {
+                Helpers.SelectAllInView(uiapp);
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
+
+        }
+
+        public string GetName()
+        {
+            return "External Event Select All";
+        }
+    }
+
+
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class SelectBeams : IExternalEventHandler
     {

@@ -29,6 +29,21 @@ namespace SimpleDockablePanel
             
         }
 
+        public static void SelectAllInView(UIApplication uiapp)
+        {
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            
+            Document doc = uidoc.Document;
+
+            ElementId activeViewId = uidoc.ActiveView.Id;
+
+            ICollection<ElementId> elementSet = new FilteredElementCollector(doc, activeViewId).WhereElementIsNotElementType().ToElementIds();
+
+            uidoc.Selection.SetElementIds(elementSet);
+        }
+
+
+
         public static void SelectElementsFilter(UIApplication uiapp, string categoryName)
         {
             UIDocument uidoc = uiapp.ActiveUIDocument;

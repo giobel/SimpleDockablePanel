@@ -13,6 +13,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel Width="170" Margin="10">
+        <Button Content="Select All in View" Command="{Binding Path=SelectAllInViewClick}" />
         <Button Content="Select Walls" Command="{Binding Path=SelectWallsClick}" />
         <Button Content="Select Beams" Command="{Binding Path=SelectBeamsClick}" />
         <Button Content="Select Floors" Command="{Binding Path=SelectFloorsClick}" />

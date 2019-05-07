@@ -15,9 +15,13 @@ namespace SimpleDockablePanel.Commands
             return true;
         }
 
+        public RelayCommand SelectAllInViewClick { get; set; }
         public RelayCommand SelectBeamsClick { get; set; }
         public RelayCommand SelectFloorsClick { get; set; }
         public RelayCommand SelectWallsClick { get; set; }
+
+        private SelectAllInView _selectAllInViewHandler;
+        private ExternalEvent _selectAllInViewEvent;
 
         private SelectBeams _selectBeamsHandler;
         private ExternalEvent _selectBeamsEvent;
@@ -31,12 +35,19 @@ namespace SimpleDockablePanel.Commands
 
         public SelectTabViewModel()
         {
+            SelectAllInViewClick = new RelayCommand(SelectAllInViewRaise, SelectExec);
             SelectBeamsClick = new RelayCommand(SelectBeamsRaise, SelectExec);
             SelectWallsClick = new RelayCommand(SelectWallsRaise, SelectExec);
             SelectFloorsClick = new RelayCommand(SelectFloorsRaise, SelectExec);
         }
 
-        public void SelectBeam()
+        public void SelectAllInView()
+        {
+            _selectAllInViewHandler = new SelectAllInView();
+            _selectAllInViewEvent = ExternalEvent.Create(_selectAllInViewHandler);
+        }
+
+        public void SelectBeams()
         {
             _selectBeamsHandler = new SelectBeams();
             _selectBeamsEvent = ExternalEvent.Create(_selectBeamsHandler);
@@ -53,6 +64,12 @@ namespace SimpleDockablePanel.Commands
         {
             _selectFloorsHandler = new SelectFloors();
             _selectFloorsEvent = ExternalEvent.Create(_selectFloorsHandler);
+        }
+
+
+        public void SelectAllInViewRaise(object obj)
+        {
+            _selectAllInViewEvent.Raise();
         }
 
         public void SelectBeamsRaise(object obj)
