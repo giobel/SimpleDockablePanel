@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SimpleDockablePanel.Commands
+namespace SimpleDockablePanel.ViewModels
 {
     public class RelayCommand : ICommand
     {

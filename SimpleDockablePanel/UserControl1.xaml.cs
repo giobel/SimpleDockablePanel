@@ -2,9 +2,7 @@
 using System.Windows;
 using Autodesk.Revit.UI;
 using System;
-using System.Windows.Navigation;
 using Autodesk.Revit.UI.Events;
-using Autodesk.Revit.DB;
 
 namespace SimpleDockablePanel
 {
