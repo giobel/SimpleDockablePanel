@@ -9,15 +9,26 @@ namespace SimpleDockablePanel.Views
     /// </summary>
     public partial class ImportedDWGview : UserControl
     {
+        
+
         public ImportedDWGview()
         {
             InitializeComponent();
-            ViewModels.ImportDWGViewModel import = new ViewModels.ImportDWGViewModel();
-            this.DataContext = import;
 
-            //listBox1.ItemsSource = import.DWGlist;
+            this.DataContext = new ViewModels.ImportDWGViewModel();
+
 
         }
 
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            stPanel.Children.Clear();
+
+            RevitAddinWPF.Views.viewRevitBridge view = new RevitAddinWPF.Views.viewRevitBridge();
+
+            view.DataContext = RevitAddinWPF.Command.vmod;
+
+            stPanel.Children.Add(view);
+        }
     }
 }

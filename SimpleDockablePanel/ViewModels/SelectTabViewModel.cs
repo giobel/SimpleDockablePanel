@@ -1,4 +1,5 @@
-﻿using SimpleDockablePanel.Models;
+﻿using Autodesk.Revit.UI;
+using SimpleDockablePanel.Models;
 
 namespace SimpleDockablePanel.ViewModels
 {
@@ -16,15 +17,30 @@ namespace SimpleDockablePanel.ViewModels
         public RelayCommand SelectFloorsClick { get; set; }
         public RelayCommand SelectWallsClick { get; set; }
 
+        private SelectAllInView _selectAllInViewHandler;
+        private ExternalEvent _selectAllInViewEvent;
+
+        public void SelectAllInView()
+        {
+            _selectAllInViewHandler = new SelectAllInView();
+            _selectAllInViewEvent = ExternalEvent.Create(_selectAllInViewHandler);
+        }
+
+        public void SelectAllInViewRaise(object obj)
+        {
+            _selectAllInViewEvent.Raise();
+        }
+
 
         public SelectTabViewModel()
         {
-            sh.SelectAllInView(); //create handle and event
+
+            SelectAllInView(); //create handle and event
             sh.SelectBeams();
             sh.SelectWalls();
             sh.SelectFloors();
 
-            SelectAllInViewClick = new RelayCommand(sh.SelectAllInViewRaise, SelectExec);
+            SelectAllInViewClick = new RelayCommand(SelectAllInViewRaise, SelectExec);
             SelectBeamsClick = new RelayCommand(sh.SelectBeamsRaise, SelectExec);
             SelectWallsClick = new RelayCommand(sh.SelectWallsRaise, SelectExec);
             SelectFloorsClick = new RelayCommand(sh.SelectFloorsRaise, SelectExec);

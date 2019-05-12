@@ -1,52 +1,77 @@
 ﻿using Autodesk.Revit.UI;
-using SimpleDockablePanel.ViewModels;
-using System.Collections.Generic;
 using SimpleDockablePanel.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace SimpleDockablePanel.ViewModels
 {
-    public class ImportDWGViewModel
+    public class ImportDWGViewModel : BaseViewModel
     {
-        public List<ImportedDWG> DWGlist { get; set; }
 
-        private bool SelectExec(object obj)
+        private string textValue;
+        public string TextValue
         {
-            return true;
+            get {
+                
+                return textValue; }
+            set {
+                
+                TextValue = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        public RelayCommand RefreshImportedDWGClick { get; set; }
+        public RelayCommand AggiungiClick { get; set; }
 
-        private FindImportedDWG _importedDWGViewHandler;
-        private ExternalEvent _importedDWGEvent;
-
+        private ObservableCollection<ImportedDWG> _listImportedDWGs { get; set; }
         
-
-        public void ImportedDWGRaise(object obj)
+        public ObservableCollection<ImportedDWG> pierino
         {
-            
-            _importedDWGEvent.Raise();
-        }
-
-        public void FindImportedDWGCommand()
-        {
-            _importedDWGViewHandler = new Models.FindImportedDWG();
-            _importedDWGEvent = ExternalEvent.Create(_importedDWGViewHandler);
+            get
+            {
+                return _listImportedDWGs;
+            }
+            set
+            {
+                _listImportedDWGs = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public ImportDWGViewModel()
         {
+            pierino = new ObservableCollection<ImportedDWG>(); //will keep all the values
+            DWGeventHandler();
+            //AggiungiClick = new RelayCommand(DWGRaise);
             
-            //FindImportedDWGCommand();
+            AggiungiClick = new RelayCommand(DWGRaise);
             
-            RefreshImportedDWGClick = new RelayCommand(ImportedDWGRaise, SelectExec);
+            
+        }
+        
+        private RevitAddinWPF.Command _DWGHandler;
+        private ExternalEvent _DWGEvent;
 
+        public void DWGeventHandler()
+        {
+            _DWGHandler = new RevitAddinWPF.Command();
+            _DWGEvent = ExternalEvent.Create(_DWGHandler);
             
         }
 
+        public void DWGRaise(object obj)
+        {
+            _DWGEvent.Raise();
+        }
+
         
+
+        private void ExecuteMethod(object obj)
+        {
+            MessageBox.Show("ciao");
             
-
-
-        //public IList<ImportedDWG> pierino => DWGlist;
+        }
     }
 }

@@ -74,9 +74,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="External\Command.cs" />
+    <Compile Include="External\ViewModels\viewmodelRevitBridge.cs" />
+    <Compile Include="External\Models\modelRevitBridge.cs" />
+    <Compile Include="External\Views\viewRevitBridge.xaml.cs">
+      <DependentUpon>viewRevitBridge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DWGcontainer.cs" />
     <Compile Include="Models\FindImportedDWG.cs" />
     <Compile Include="Models\ImportedDWG.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ImportDWGViewModel.cs" />
     <Compile Include="ViewModels\SelectTabViewModel.cs" />
     <Compile Include="DbHelpers.cs" />
@@ -113,6 +121,10 @@
     <Content Include="SimpleDockablePanel.addin" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="External\Views\viewRevitBridge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

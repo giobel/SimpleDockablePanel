@@ -5,8 +5,7 @@ namespace SimpleDockablePanel.Models
 {
     public class SelectHelpers
     {
-        private SelectAllInView _selectAllInViewHandler;
-        private ExternalEvent _selectAllInViewEvent;
+
 
         private SelectBeams _selectBeamsHandler;
         private ExternalEvent _selectBeamsEvent;
@@ -17,11 +16,7 @@ namespace SimpleDockablePanel.Models
         private SelectFloors _selectFloorsHandler;
         private ExternalEvent _selectFloorsEvent;
 
-        public void SelectAllInView()
-        {
-            _selectAllInViewHandler = new SelectAllInView();
-            _selectAllInViewEvent = ExternalEvent.Create(_selectAllInViewHandler);
-        }
+
 
         public void SelectBeams()
         {
@@ -43,10 +38,6 @@ namespace SimpleDockablePanel.Models
         }
 
 
-        public void SelectAllInViewRaise(object obj)
-        {
-            _selectAllInViewEvent.Raise();
-        }
 
         public void SelectBeamsRaise(object obj)
         {
@@ -150,6 +141,32 @@ namespace SimpleDockablePanel.Models
         public string GetName()
         {
             return "External Event Select Floors";
+        }
+    }
+
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    public class CountDWGItems : IExternalEventHandler
+    {
+
+        public void Execute(UIApplication uiapp)
+        {
+            try
+            {
+                int number = Helpers.CountDWGs(uiapp);
+                TaskDialog.Show("result", String.Format("Number of DWWGs = {0}", number));
+                DWGcontainer dw = new DWGcontainer();
+                dw.countDWG= number;
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
+
+        }
+
+        public string GetName()
+        {
+            return "External Event Count DWGs";
         }
     }
 

@@ -14,7 +14,7 @@ using SimpleDockablePanel.Properties;
 
 namespace SimpleDockablePanel
 {
-   
+
 
     class Helpers
     {
@@ -22,17 +22,17 @@ namespace SimpleDockablePanel
 
         public static void ElementsCount(Document doc)
         {
-            
+
             FilteredElementCollector fec = new FilteredElementCollector(doc).WhereElementIsNotElementType();
 
             TaskDialog.Show("Result", fec.Count().ToString());
-            
+
         }
 
         public static void SelectAllInView(UIApplication uiapp)
         {
             UIDocument uidoc = uiapp.ActiveUIDocument;
-            
+
             Document doc = uidoc.Document;
 
             ElementId activeViewId = uidoc.ActiveView.Id;
@@ -65,7 +65,7 @@ namespace SimpleDockablePanel
 
         public static void DocSaved(object sender, DocumentSavedEventArgs e)
         {
-            
+
             string currentUser = ShowDockableWindow._cachedUiApp.Application.Username;
             Ribbon.m_MyDock.txtBoxSyncTime.Text = String.Format("{0} {1}", Helpers.GetTime(), currentUser);
         }
@@ -94,7 +94,7 @@ namespace SimpleDockablePanel
                     }
                     catch
                     {
-                        
+
                     }
                 }
             }
@@ -108,6 +108,14 @@ namespace SimpleDockablePanel
 
             return elementIds.Count();
 
+        }
+
+        public static int CountDWGs(UIApplication uiapp){
+
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            Document doc = uidoc.Document;
+            FilteredElementCollector col = new FilteredElementCollector(doc).OfClass(typeof(ImportInstance));
+            return col.Count();
         }
 
         public static string GetTime()

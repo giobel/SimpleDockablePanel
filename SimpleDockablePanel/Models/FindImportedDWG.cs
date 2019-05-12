@@ -3,6 +3,7 @@ using Autodesk.Revit.UI;
 using SimpleDockablePanel.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,7 @@ namespace SimpleDockablePanel.Models
     public class FindImportedDWG : IExternalEventHandler
         {
 
-        private List<ImportedDWG> importedDWGlist = new List<ImportedDWG>();
-
-        private List<ImportedDWG> newList = null;
+        private ObservableCollection<ImportedDWG> importedDWGlist { get; set; }
 
         public void Execute(UIApplication uiapp)
             {
@@ -23,6 +22,10 @@ namespace SimpleDockablePanel.Models
             Document doc = uidoc.Document;
 
             FilteredElementCollector col = new FilteredElementCollector(doc).OfClass(typeof(ImportInstance));
+
+            
+
+            importedDWGlist = new ObservableCollection<ImportedDWG>();
 
             //NameValueCollection listOfViewSpecificImports = new NameValueCollection();
 
@@ -68,7 +71,7 @@ namespace SimpleDockablePanel.Models
 
                         if (null != e.Category)
 
-                            
+
                             importedDWGlist.Add(new ImportedDWG { ImportType = "View Specific", CategoryName = e.Category.Name, ViewName = viewName });
                             //listOfViewSpecificImports.Add(importCategoryNameToFileName(e.Category.Name), viewName);
 
@@ -104,17 +107,21 @@ namespace SimpleDockablePanel.Models
 
             TaskDialog.Show("View Specific", result);
 
+            //ViewModels.ImportDWGViewModel vim = new ViewModels.ImportDWGViewModel();
+            //vim.pierino = new ObservableCollection<ImportedDWG>();
+            //vim.pierino = importedDWGlist;
+
+            
+
 
         }//close method
 
-        public FindImportedDWG()
+        public ObservableCollection<ImportedDWG> PierinoDWG()
         {
-            newList = new List<ImportedDWG>();
-            newList = importedDWGlist;
+            return importedDWGlist;
         }
 
-        IList<ImportedDWG> ImportedDWGlist => newList;
-
+      
         private string importCategoryNameToFileName(string catName)
         {
 
