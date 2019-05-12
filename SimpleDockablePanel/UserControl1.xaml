@@ -145,14 +145,14 @@
             </TabItem>
             
             <TabItem Header="Selection">
-
-                <vsc:SelectTab/>
+                
+                    <vsc:SelectTab/>
 
             </TabItem>
 
             <TabItem Header="DWG">
-
-                <vsc:ImportedDWGview/>
+                
+                    <vsc:ImportedDWGview/>
 
             </TabItem>
 

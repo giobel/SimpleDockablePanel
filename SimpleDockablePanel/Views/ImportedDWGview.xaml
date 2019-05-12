@@ -33,22 +33,37 @@
             <Setter Property="DockPanel.Dock" Value="Left"/>
             <Setter Property="Margin" Value="5,0,5,0"/>
         </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="50"/>
+        </Style>
 
 
     </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Grid>
-    <StackPanel>
-        <Button Content="Refresh" Height="20" Margin="10" Command="{Binding Path=AggiungiClick}"/>
-        <ListBox Margin="17,8,15,26" Name="listBox1"   
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Load" Height="30" Click="Button_Click"/>
+            <Button Content="Refresh" Height="30" Command="{Binding Path=AggiungiClick}"/>
+        <!--< ListBox Margin="17,8,15,26" Name="listBox1"   
                  ItemTemplate="{StaticResource listBoxTemplate}"
                  ItemsSource="{Binding Path=pierino}"         
-                 />
-        <Button Content="Load" Click="Button_Click"/>
-    </StackPanel>
-    <StackPanel Name="stPanel">
+                 />-->
+        </StackPanel>
         
-    </StackPanel>
+
+            <StackPanel Name="stPanel" Grid.Row="1" VerticalAlignment="Top">
+
+            </StackPanel>
+        
     </Grid>
+    </ScrollViewer>
 </UserControl>
 
     
