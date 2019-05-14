@@ -151,9 +151,10 @@
             </TabItem>
 
             <TabItem Header="DWG">
-                
-                    <vsc:ImportedDWGview/>
 
+                <!--<vsc:ImportedDWGview/>-->
+                <vsc:DWGtableView/>
+                
             </TabItem>
 
         </TabControl>

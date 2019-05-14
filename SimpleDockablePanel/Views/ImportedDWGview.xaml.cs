@@ -1,6 +1,5 @@
-﻿using Autodesk.Revit.UI;
-using SimpleDockablePanel.Models;
-using System.Collections.Generic;
+﻿
+using Autodesk.Revit.UI;
 using System.Windows.Controls;
 
 namespace SimpleDockablePanel.Views
@@ -16,19 +15,19 @@ namespace SimpleDockablePanel.Views
         {
             InitializeComponent();
 
-            this.DataContext = new ViewModels.ImportDWGViewModel();
+            //this.DataContext = new ViewModels.ImportDWGViewModel();
 
             _DWGHandler = new RevitAddinWPF.Command();
             _DWGEvent = ExternalEvent.Create(_DWGHandler);
 
-            _DWGEvent.Raise();
+            //_DWGEvent.Raise();
+
+
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            
-            _DWGEvent.Raise();
-
+       
             stPanel.Children.Clear();
 
             RevitAddinWPF.Views.viewRevitBridge view = new RevitAddinWPF.Views.viewRevitBridge();
@@ -36,9 +35,14 @@ namespace SimpleDockablePanel.Views
             view.DataContext = RevitAddinWPF.Command.vmod;
 
             stPanel.Children.Add(view);
+
         }
 
+        private void RefreshClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _DWGEvent.Raise();
 
+        }
 
         private RevitAddinWPF.Command _DWGHandler;
         private ExternalEvent _DWGEvent;
@@ -54,5 +58,7 @@ namespace SimpleDockablePanel.Views
         {
             _DWGEvent.Raise();
         }
+
+
     }
 }

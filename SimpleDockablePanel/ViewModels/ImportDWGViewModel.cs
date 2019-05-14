@@ -23,7 +23,7 @@ namespace SimpleDockablePanel.ViewModels
             }
         }
 
-        public RelayCommand AggiungiClick { get; set; }
+        
 
         private ObservableCollection<ImportedDWG> _listImportedDWGs { get; set; }
         
@@ -43,14 +43,20 @@ namespace SimpleDockablePanel.ViewModels
         public ImportDWGViewModel()
         {
             pierino = new ObservableCollection<ImportedDWG>(); //will keep all the values
-            DWGeventHandler();
+            //DWGeventHandler();
             //AggiungiClick = new RelayCommand(DWGRaise);
             
-            AggiungiClick = new RelayCommand(DWGRaise);
-            
-            
         }
-        
+
+        public RelayCommand AggiungiClick
+        {
+            get
+            {
+                
+                return new RelayCommand(DWGRaise);
+            }
+        }
+
         private RevitAddinWPF.Command _DWGHandler;
         private ExternalEvent _DWGEvent;
 
@@ -64,6 +70,7 @@ namespace SimpleDockablePanel.ViewModels
         public void DWGRaise(object obj)
         {
             _DWGEvent.Raise();
+
         }
 
         

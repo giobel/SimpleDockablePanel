@@ -80,11 +80,12 @@
     <Compile Include="External\Views\viewRevitBridge.xaml.cs">
       <DependentUpon>viewRevitBridge.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\DWGcontainer.cs" />
+    <Compile Include="Models\DWGtableModelCommand.cs" />
     <Compile Include="Models\FindImportedDWG.cs" />
     <Compile Include="Models\ImportedDWG.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\DWGtableViewModel.cs" />
     <Compile Include="ViewModels\ImportDWGViewModel.cs" />
     <Compile Include="ViewModels\SelectTabViewModel.cs" />
     <Compile Include="DbHelpers.cs" />
@@ -104,6 +105,9 @@
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewHelpers.cs" />
+    <Compile Include="Views\DWGtableView.xaml.cs">
+      <DependentUpon>DWGtableView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ImportedDWGview.xaml.cs">
       <DependentUpon>ImportedDWGview.xaml</DependentUpon>
     </Compile>
@@ -126,6 +130,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DWGtableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

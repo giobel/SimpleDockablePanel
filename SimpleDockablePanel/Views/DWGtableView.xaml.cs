@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +14,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RevitAddinWPF.Views
+namespace SimpleDockablePanel.Views
 {
     /// <summary>
-    /// Interaction logic for viewRevitBridge.xaml
+    /// Interaction logic for DWGtableView.xaml
     /// </summary>
-    public partial class viewRevitBridge : UserControl, IDisposable
+    public partial class DWGtableView : UserControl
     {
-        public viewRevitBridge()
+        public DWGtableView()
         {
             InitializeComponent();
-            //Views.viewRevitBridge view = new Views.viewRevitBridge();
-            //this.DataContext = Views.viewRevitBridge;
-        }
 
-        public void Dispose()
-        {
-            //this.Close();
+            ViewModels.DWGtableViewModel vm = new ViewModels.DWGtableViewModel();
+
+            this.DataContext = vm;
         }
-        
     }
 }

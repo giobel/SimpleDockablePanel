@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="SimpleDockablePanel.Views.DWGtableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimpleDockablePanel.Views"
+             xmlns:vm="clr-namespace:SimpleDockablePanel.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:DWGtableViewModel, IsDesignTimeCreatable=True}">
+    <StackPanel>
+        <!--<Button Content="Load" Click="Button_Click"/>-->
+        <Button Content="Load" Command="{Binding Path=ActivateClick}"/>
+        <ListBox ItemsSource="{Binding Path=NumberDWG}" HorizontalAlignment="Center"/>
+        <!--<TextBox Text="-" Width="500" TextAlignment="Center" HorizontalAlignment="Center" x:Name="tbox"/>-->
+    </StackPanel>
+</UserControl>

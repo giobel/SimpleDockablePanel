@@ -35,13 +35,13 @@
         </Style>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Width" Value="50"/>
+            
         </Style>
 
 
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-    <Grid>
+    <Grid Name="grid">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -49,18 +49,21 @@
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal">
-            <Button Content="Load" Height="30" Click="Button_Click"/>
-            <Button Content="Refresh" Height="30" Command="{Binding Path=AggiungiClick}"/>
+            <Button Content="Load" Height="30" Click="Button_Click" Width="50"/>
+            <Button Content="Refresh" Height="30" Width="50"  Click="RefreshClick"/>
         <!--< ListBox Margin="17,8,15,26" Name="listBox1"   
                  ItemTemplate="{StaticResource listBoxTemplate}"
                  ItemsSource="{Binding Path=pierino}"         
                  />-->
         </StackPanel>
-        
 
-            <StackPanel Name="stPanel" Grid.Row="1" VerticalAlignment="Top">
+            <StackPanel Name="stPanel" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
 
+                
+                
             </StackPanel>
+        
+        
         
     </Grid>
     </ScrollViewer>
